@@ -1,0 +1,10 @@
+/* Custom Slick Carousel Dot Styles */
+
+.slick-dots li button:before {
+  @apply text-white opacity-75; /* Tailwind utility classes */
+  font-size: 12px; /* Non-Tailwind property */
+}
+
+.slick-dots li.slick-active button:before {
+  @apply text-white opacity-100; /* Full opacity for active dot */
+}
