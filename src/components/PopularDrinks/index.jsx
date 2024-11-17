@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import background from "../../assets/images/b 1.jpg";
+import Button from "../Button";
 
 const PopularDrinks = ({ searchQuery }) => {
   const [drinks, setDrinks] = useState([]);
@@ -8,7 +9,7 @@ const PopularDrinks = ({ searchQuery }) => {
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filteredDrinks, setFilteredDrinks] = useState([]);  // For storing filtered drinks
+  const [filteredDrinks, setFilteredDrinks] = useState([]); // For storing filtered drinks
 
   // Fetch drinks based on search query or default to popular drinks
   useEffect(() => {
@@ -25,7 +26,7 @@ const PopularDrinks = ({ searchQuery }) => {
         const response = await fetch(url);
         const data = await response.json();
         if (data.drinks) {
-          setDrinks(data.drinks);  // Set fetched drinks
+          setDrinks(data.drinks); // Set fetched drinks
         } else {
           setDrinks([]); // Clear drinks if no results are found
         }
@@ -110,7 +111,6 @@ const PopularDrinks = ({ searchQuery }) => {
       className="text-center text-white py-8 bg-cover bg-center"
       style={{ backgroundImage: `url(${background})` }}
     >
-
       {/* Popular Drinks Section */}
       <div className="text-center text-white py-8">
         <h2 className="text-3xl mb-6 font-serif text-black">Popular Drinks</h2>
@@ -133,7 +133,6 @@ const PopularDrinks = ({ searchQuery }) => {
           )}
         </div>
       </div>
-      
 
       <hr className="border-gray-700 my-8" />
 
@@ -158,19 +157,21 @@ const PopularDrinks = ({ searchQuery }) => {
 
       {/* Refresh Random Drinks Button */}
       <div className="text-center mt-6">
-        <button
+        
+        <Button
+          text="Refresh Drinks"
+          customClass="bg-yellow-500 text-black hover:bg-yellow-600 transition duration-300 w-[150px] h-[40px] text-md  font-medium border border-gray-400 ml-[920px]"
           onClick={fetchRandomDrinks}
-          className="px-4 py-2 text-black bg-yellow-500 rounded hover:bg-yellow-600 transition duration-300"
-        >
-          Refresh Drinks
-        </button>
+        />
       </div>
 
       <hr className="border-gray-700 my-8" />
 
       {/* Ingredients Section */}
       <div className="text-white p-6">
-        <h3 className="text-3xl mb-6 font-serif text-black">Ingredients List</h3>
+        <h3 className="text-3xl mb-6 font-serif text-black">
+          Ingredients List
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 ml-44">
           {ingredients.slice(0, 12).map((ingredient, index) => (
             <Link to={`/ingredient/${ingredient.strIngredient1}`} key={index}>
