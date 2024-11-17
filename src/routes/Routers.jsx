@@ -4,6 +4,7 @@ import DrinkDetails from "../pages/DrinkDetails";
 import CocktailsByLetter from "../pages/CocktailsByLetter";
 import IngredientDrinks from "../pages/IngredientDrinks";
 import { useSearch } from "../context/SearchContext";
+import Cart from "../pages/Cart"
 
 const Routers = ({ ingredients }) => {
   const { searchQuery } = useSearch(); // Get the search query from context
@@ -17,6 +18,7 @@ const Routers = ({ ingredients }) => {
         path="/ingredient/:ingredientName"
         element={<IngredientDrinks searchQuery={searchQuery} ingredients={ingredients} />}
       />
+      <Route path="/cart" element={<Cart searchQuery={searchQuery} />} />
     </Routes>
   );
 };

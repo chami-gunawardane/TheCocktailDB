@@ -1,23 +1,24 @@
 import React from "react";
-import { useSearch } from "../../context/SearchContext"; // Import the useSearch hook
+import { useSearch } from "../../context/SearchContext"; 
 import Logo from "../../assets/images/logo.jpeg";
 import Button from "../../components/Button";
+import CartIcon from "../../assets/images/cart.jpg";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux"; // Import useSelector to access Redux state
 
 const Header = () => {
-  const { searchQuery, setSearchQuery } = useSearch(); // Get the global search state
+  const { searchQuery, setSearchQuery } = useSearch(); 
+  const cartItems = useSelector((state) => state.cart.items || []); // Handle undefined state gracefully
+  const cartCount = cartItems.length; // Get the cart count safely
 
-  // Function to handle search
   const handleSearch = () => {
     if (searchQuery.trim() === "") {
       alert("Please enter a search term");
       return;
     }
     console.log("Searching for:", searchQuery);
-    // Optionally, you can redirect to a search results page
-    // window.location.href = `/search?query=${searchQuery}`;
   };
 
-  // Handle Enter key press in the search input
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -42,6 +43,20 @@ const Header = () => {
             Contact Us
           </a>
         </div>
+
+        <Link to="/cart">
+          <Button
+            customClass="bg-white text-black mr-10 hover:bg-[#F1C376]"
+            image={
+              <div className="relative">
+                <img src={CartIcon} alt="Cart" className="h-4 w-4" />
+                <span className="absolute bottom-3 left-5 text-xs bg-red-500 text-white rounded-full px-1">
+                  {cartCount}
+                </span>
+              </div>
+            }
+          />
+        </Link>
 
         <input
           type="text"

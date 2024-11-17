@@ -1,10 +1,12 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Provider } from "react-redux"; // Import Provider for Redux
 import Routers from "../src/routes/Routers";
 import "./App.css";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
-import { SearchProvider } from "../src/context/SearchContext"; // Import the SearchProvider
+import { SearchProvider } from "../src/context/SearchContext"; 
+import store from "./redux/Store"; 
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -21,15 +23,17 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Router>
-        <SearchProvider>
-          <Header />
-          <Routers ingredients={ingredients} />
-          <Footer />
-        </SearchProvider>
-      </Router>
-    </div>
+    <Provider store={store}> {/* Wrap the app in the Redux Provider */}
+      <div className="App">
+        <Router>
+          <SearchProvider>
+            <Header />
+            <Routers ingredients={ingredients} />
+            <Footer />
+          </SearchProvider>
+        </Router>
+      </div>
+    </Provider>
   );
 }
 
