@@ -62,60 +62,88 @@ const DrinkDetails = () => {
   };
 
   return (
-    <div className="text-left p-8 bg-gradient-to-r from-black via-red-950 to-black min-h-screen">
-      <h1 className="text-3xl font-bold mb-4 text-white ml-60 mt-10">
-        {highlightText(drink.strDrink)}
-      </h1>
-
-      <div className="flex items-start gap-8">
-        <div>
-          <img
-            src={drink.strDrinkThumb}
-            alt={drink.strDrink}
-            className="w-80 h-80 object-cover rounded-lg mb-4 ml-60 mt-10"
-          />
-          <p className="text-sm text-gray-400 ml-60 mt-5">Image Source: Creative Commons Pixabay</p>
-        </div>
-
-        <div className="text-white">
-          <h3 className="text-2xl -mt-10 mb-10 ml-40 font-serif">Ingredients</h3>
-          <ul className="grid grid-cols-3 gap-10 ml-16">
+    <div className=" bg-gradient-to-r from-black via-red-950 to-black text-white p-8">
+    {/* Header Section */}
+    <header className="text-center mb-12">
+      <h1 className="text-4xl font-extrabold mb-4">{highlightText(drink.strDrink)}</h1>
+    </header>
+  
+    {/* Main Content */}
+    <main className="flex flex-col lg:flex-row gap-12 items-start">
+      {/* Left: Drink Image */}
+      <div className="flex flex-col items-center lg:items-start w-full lg:w-1/3 ml-20">
+        <img
+          src={drink.strDrinkThumb}
+          alt={drink.strDrink}
+          className="w-full max-w-md h-auto rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+        />
+        <p className="text-sm text-gray-400 mt-2">Image Source: Creative Commons Pixabay</p>
+      </div>
+  
+      {/* Right: Drink Details */}
+      <div className="flex-1">
+        {/* Ingredients Section */}
+        <section className="mb-12 -ml-20">
+          <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mr-20 ">
             {Array.from({ length: 15 }).map((_, index) => {
               const ingredient = drink[`strIngredient${index + 1}`];
               const measure = drink[`strMeasure${index + 1}`];
               return (
                 ingredient && (
-                  <li key={index} className="grid grid-row gap-2 ">
+                  <div
+                    key={index}
+                    className="bg-[#3E1E28] p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col items-center"
+                  >
                     <img
-                      src={ingredientImages[ingredient] || `https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
+                      src={
+                        ingredientImages[ingredient] ||
+                        `https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`
+                      }
                       alt={ingredient}
-                      className="w-[300px] h-[300px] object-contain"
+                      className="w-24 h-24 object-contain mb-3"
                     />
-                    <span className="text-lg text-center">
+                    <p className="text-center text-lg">
                       {highlightText(`${measure || ""} ${ingredient}`)}
-                    </span>
-                  </li>
+                    </p>
+                  </div>
                 )
               );
             })}
-          </ul>
-        </div>
+          </div>
+        </section>
+  
+        {/* Instructions Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4 -ml-20">Instructions</h2>
+          <ol className="list-decimal pl-6 space-y-3 text-lg text-gray-200 -ml-20">
+            {drink.strInstructions.split('. ').map((step, idx) => (
+              <li key={idx}>{highlightText(step.trim())}</li>
+            ))}
+          </ol>
+        </section>
+  
+        {/* Glass Section */}
+        <section className="mb-12 -ml-20">
+          <h2 className="text-2xl font-bold mb-4">Glass</h2>
+          <p className="text-lg">Serve: {highlightText(drink.strGlass)}</p>
+        </section>
       </div>
+    </main>
+  
+    {/* Add to Cart Button */}
+    <div className="text-center mt-2 -ml-[980px] mb-14">
       <Button
         text="Add to Cart"
-        customClass="bg-white text-black mr-10 ml-[850px] mt-10 hover:bg-gray-200 font-serif"
-        image={<img src={CartIcon} alt="Cart" className="h-4 w-4" />}
-        onClick={handleAddToCart} // Attach the Add to Cart handler
+        customClass="bg-white text-black px-8 py-3 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 font-bold inline-flex items-center gap-2 transition-transform duration-300 hover:scale-105"
+        image={<img src={CartIcon} alt="Cart" className="h-5 w-5" />}
+        onClick={handleAddToCart}
       />
-
-      <div className="text-white mt-12 mb-20 mr-48 text-center font-serif">
-        <h3 className="text-2xl mb-4 ml-40">Instructions</h3>
-        <p className="mb-8 text-lg ml-60">{highlightText(drink.strInstructions)}</p>
-
-        <h3 className="text-2xl mb-4 ml-40">Glass</h3>
-        <p className="text-lg ml-40">Serve: {highlightText(drink.strGlass)}</p>
-      </div>
     </div>
+  </div>
+  
+
+
   );
 };
 

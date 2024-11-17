@@ -38,11 +38,7 @@ function Footer() {
           </div>
         </div>
         
-        <div className="flex justify-center space-x-6 mt-6 text-lg">
-          <span className="text-green-500 font-bold">TheSportsDB</span>
-          <span className="text-red-500 font-bold">TheAudioDB</span>
-          <span className="text-yellow-500 font-bold">TheMealDB</span>
-        </div>
+        
       </div>
     </footer>
   );
