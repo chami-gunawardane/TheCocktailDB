@@ -98,3 +98,7 @@ export const fetchDrinkDetails = async (idDrink) => {
 export const getIngredientsImageUrl = (ingredient) => {
   return `${BASE_INGREDIENT_IMAGE_URL}${encodeURIComponent(ingredient)}-Small.png`;
 };
+
+export const getIngredientSectionImageUrl = (ingredient) => {
+  return `${BASE_INGREDIENT_IMAGE_URL}${encodeURIComponent(ingredient)}-Medium.png`;
+};

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSearch } from "../../context/SearchContext";
+import { getIngredientImageUrl } from "../../services/cocktailService"; // Import the image service
+import { fetchDrinksByIngredient } from "../../services/drinkService"; // Import the drinks service
 
 const IngredientDrinks = ({ ingredients = [] }) => {
   const { ingredientName } = useParams();
   const { searchQuery } = useSearch();
   const navigate = useNavigate();
   const [drinks, setDrinks] = useState([]);
-  const ingredientImageUrl = `https://www.thecocktaildb.com/images/ingredients/${ingredientName}-Medium.png`;
+  
+  // Dynamically generate the ingredient image URL using the helper function
+  const ingredientImageUrl = getIngredientImageUrl(ingredientName);
 
   // Find the current ingredient index
   const currentIndex = ingredients?.findIndex(
@@ -18,16 +22,14 @@ const IngredientDrinks = ({ ingredients = [] }) => {
   useEffect(() => {
     if (!ingredientName) return;
 
-    fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientName}`)
-      .then((response) => response.json())
+    fetchDrinksByIngredient(ingredientName)
       .then((data) => {
-        if (Array.isArray(data.drinks)) {
-          setDrinks(data.drinks.slice(0, 15));
-        } else {
-          console.error("Expected data.drinks to be an array");
-        }
+        setDrinks(data);
       })
-      .catch((error) => console.error("Failed to fetch drinks:", error));
+      .catch((error) => {
+        // Handle any errors that might occur
+        console.error("Error fetching drinks:", error);
+      });
   }, [ingredientName]);
 
   // Handler for navigating to the previous ingredient
