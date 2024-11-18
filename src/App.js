@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Provider } from "react-redux"; // Import Provider for Redux
+import { Provider } from "react-redux"; 
 import Routers from "../src/routes/Routers";
 import "./App.css";
 import Footer from "./layout/Footer";
