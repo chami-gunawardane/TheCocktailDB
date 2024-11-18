@@ -5,6 +5,7 @@ import {
   RANDOM_DRINK,
   INGREDIENTS_LIST,
   INGREDIENT_IMAGE_BASE_URL,
+  BASE_API_URL,
 } from "../config/const";
 
 // Function to fetch cocktails by search query
@@ -62,4 +63,16 @@ export const fetchIngredientsList = async () => {
 
 export const getIngredientImageUrl = (ingredientName, size = "Medium") => {
   return `${INGREDIENT_IMAGE_BASE_URL}${ingredientName}-${size}.png`;
+};
+
+// Fetch cocktails by the first letter
+export const fetchCocktailsByLetter = async (letter) => {
+  try {
+    const response = await fetch(`${BASE_API_URL}search.php?f=${letter}`);
+    const data = await response.json();
+    return data.drinks || []; // Return drinks or an empty array
+  } catch (error) {
+    console.error("Error fetching cocktails by letter:", error);
+    throw error;
+  }
 };

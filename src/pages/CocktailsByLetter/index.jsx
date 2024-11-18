@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSearch } from "../../context/SearchContext";
+import { fetchCocktailsByLetter } from "../../services/cocktailService";
 
 function CocktailsByLetter() {
   const { letter } = useParams();
@@ -8,19 +9,16 @@ function CocktailsByLetter() {
   const [cocktails, setCocktails] = useState([]);
 
   useEffect(() => {
-    const fetchCocktails = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`
-        );
-        const data = await response.json();
-        setCocktails(data.drinks || []);
+        const data = await fetchCocktailsByLetter(letter); // Use service function
+        setCocktails(data);
       } catch (error) {
         console.error("Error fetching cocktails:", error);
       }
     };
 
-    fetchCocktails();
+    fetchData();
   }, [letter]);
 
   // Helper function to highlight search matches
