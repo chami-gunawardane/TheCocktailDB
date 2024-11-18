@@ -5,7 +5,7 @@ import background from "../../assets/images/b 1.jpg";
 
 const Cart = () => {
   // Retrieve cart items from Redux state
-  const cartItems = useSelector((state) => state.cart.items); // Access cart.items based on reducer structure
+  const cartItems = useSelector((state) => state.cart.items); 
   const dispatch = useDispatch();
 
   // Handle removing an item from the cart
@@ -31,7 +31,6 @@ const Cart = () => {
         Your Cart
       </h1>
 
-      {/* Check if the cart is empty */}
       {cartItems && cartItems.length === 0 ? (
         <p className="text-black text-center font-serif">
           Your cart is empty. Add some items to get started!

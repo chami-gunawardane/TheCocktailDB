@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSearch } from "../../context/SearchContext";
-import { getIngredientImageUrl } from "../../services/cocktailService"; // Import the image service
-import { fetchDrinksByIngredient } from "../../services/drinkService"; // Import the drinks service
+import { getIngredientImageUrl } from "../../services/cocktailService";
+import { fetchDrinksByIngredient } from "../../services/drinkService"; 
 
 const IngredientDrinks = ({ ingredients = [] }) => {
   const { ingredientName } = useParams();

@@ -32,11 +32,9 @@ const Home = () => {
     fetchDrinks();
   }, []);
 
-  // Handle search query change
   const handleSearchChange = (query) => {
     setSearchQuery(query);
 
-    // Filter drinks based on the search query
     const filtered = drinks.filter((drink) =>
       drink.strDrink.toLowerCase().includes(query.toLowerCase())
     );
