@@ -25,10 +25,11 @@ const Cart = () => {
       className="p-8 bg-gray-100 min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${background})` }}
     >
+      <div className="absolute top-2 bg-black opacity-100"></div>
 
-    <div className="absolute top-2 bg-black opacity-100"></div>
-
-      <h1 className="text-2xl font-bold mb-4 ml-[850px] font-serif">Your Cart</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center sm:text-center font-serif">
+        Your Cart
+      </h1>
 
       {/* Check if the cart is empty */}
       {cartItems && cartItems.length === 0 ? (
@@ -37,7 +38,7 @@ const Cart = () => {
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full  shadow-md rounded-md font-serif">
+          <table className="min-w-full shadow-md rounded-md font-serif">
             <thead>
               <tr className="border-b border-black">
                 <th className="p-4 text-left">Product</th>
@@ -79,7 +80,6 @@ const Cart = () => {
                       </button>
                     </div>
                   </td>
-                  
                   <td className="p-4">
                     <button
                       onClick={() => handleRemove(item.id)}

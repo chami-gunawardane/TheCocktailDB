@@ -1,0 +1,29 @@
+/* For large screens (1200px to 1920px) */
+@media (min-width: 1200px) {
+  .header-nav-links {
+    /* Increase spacing between the navigation links */
+    margin-right: 120px; /* Space out the links more */
+    margin-left: 120px;  /* Ensure equal space on both sides */
+  }
+
+  .header-cart-search {
+    /* Add space between cart and search on large screens */
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
+/* For extra large screens (1920px and above) */
+@media (min-width: 1920px) {
+  .header-nav-links {
+    /* Further increase space for extremely large screens */
+    margin-right: 180px;
+    margin-left: 180px;
+  }
+
+  .header-cart-search {
+    /* Add extra space between the cart and search section on very large screens */
+    margin-left: 60px;
+    margin-right: 60px;
+  }
+}
