@@ -87,7 +87,7 @@ const PopularDrinks = ({ searchQuery }) => {
 
   return (
     <div
-      className="text-center text-white py-8 bg-cover bg-center"
+      className="text-center text-white py-8 bg-cover bg-center font-serif"
       style={{ backgroundImage: `url(${background})` }}
     >
       {/* Popular Drinks Section */}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-black text-gray-300 py-8">
+    <footer className="bg-black text-gray-300 py-8 font-serif">
       <div className="container mx-auto px-4 text-center space-y-6">
         {/* Divider */}
         <div className="border-t border-gray-500 w-full"></div>

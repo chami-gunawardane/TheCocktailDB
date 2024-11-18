@@ -49,7 +49,7 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item) => (
                 <tr key={item.id} className="border-b border-black">
-                  <td className="p-4 flex items-center gap-4">
+                  <td className="p-4 flex items-center gap-4 whitespace-nowrap">
                     <img
                       src={item.image}
                       alt={item.name}

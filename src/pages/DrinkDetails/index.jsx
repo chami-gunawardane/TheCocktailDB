@@ -56,10 +56,10 @@ const DrinkDetails = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-black via-red-950 to-black text-white p-4 sm:p-8">
+    <div className="bg-gradient-to-r from-black via-red-950 to-black text-white p-4 sm:p-8 font-serif">
       {/* Header Section */}
       <header className="text-center mb-6 sm:mb-12">
-        <h1 className="text-2xl sm:text-4xl font-extrabold mb-4">
+        <h1 className="text-2xl sm:text-4xl font-extrabold mb-4 ">
           {highlightText(drink.strDrink)}
         </h1>
       </header>
@@ -82,7 +82,7 @@ const DrinkDetails = () => {
         <div className="flex-1 w-full">
           {/* Ingredients Section */}
           <section className="mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">Ingredients</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 ">Ingredients</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
               {Array.from({ length: 15 }).map((_, index) => {
                 const ingredient = drink[`strIngredient${index + 1}`];
