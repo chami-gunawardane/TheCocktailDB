@@ -6,6 +6,7 @@ import {
   INGREDIENTS_LIST,
   INGREDIENT_IMAGE_BASE_URL,
   BASE_API_URL,
+  BASE_INGREDIENT_IMAGE_URL,
 } from "../config/const";
 
 // Function to fetch cocktails by search query
@@ -75,4 +76,25 @@ export const fetchCocktailsByLetter = async (letter) => {
     console.error("Error fetching cocktails by letter:", error);
     throw error;
   }
+};
+
+// Fetch drink details by ID
+export const fetchDrinkDetails = async (idDrink) => {
+  try {
+    const response = await fetch(`${BASE_API_URL}lookup.php?i=${idDrink}`);
+    const data = await response.json();
+    if (Array.isArray(data.drinks) && data.drinks.length > 0) {
+      return data.drinks[0]; // Return the first drink
+    } else {
+      console.error("Drink not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching drink details:", error);
+    throw error;
+  }
+};
+
+export const getIngredientsImageUrl = (ingredient) => {
+  return `${BASE_INGREDIENT_IMAGE_URL}${encodeURIComponent(ingredient)}-Small.png`;
 };

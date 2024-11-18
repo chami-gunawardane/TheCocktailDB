@@ -9,5 +9,7 @@ export const INGREDIENT_IMAGE_BASE_URL = "https://www.thecocktaildb.com/images/i
 
 export const BASE_API_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
+export const BASE_INGREDIENT_IMAGE_URL = "https://www.thecocktaildb.com/images/ingredients/";
+
 
 
