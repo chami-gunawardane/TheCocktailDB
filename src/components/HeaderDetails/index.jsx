@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchCocktailsByQuery } from "../../services/cocktailService";
 
 const HeaderDetails = ({ onSearchChange }) => {
   const [drinksCount, setDrinksCount] = useState(0);
@@ -8,39 +9,35 @@ const HeaderDetails = ({ onSearchChange }) => {
   // Fetch data when the searchQuery changes
   useEffect(() => {
     if (searchQuery === "") {
-      fetchData("a"); // Default query if searchQuery is empty
+      fetchCocktailData("a"); // Default query if searchQuery is empty
     } else {
-      fetchData(searchQuery);
+      fetchCocktailData(searchQuery);
     }
   }, [searchQuery]);
 
-  const fetchData = (query) => {
-    fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.drinks) {
-          setDrinksCount(data.drinks.length);
-          const ingredientsSet = new Set();
-          data.drinks.forEach((drink) => {
-            Object.keys(drink).forEach((key) => {
-              if (key.startsWith("strIngredient") && drink[key]) {
-                ingredientsSet.add(drink[key]);
-              }
-            });
-          });
-          setIngredientsCount(ingredientsSet.size);
-        } else {
-          setDrinksCount(0);
-          setIngredientsCount(0);
-        }
-      })
-      .catch((error) => console.error("Error fetching data:", error));
+  const fetchCocktailData = async (query) => {
+    const drinks = await fetchCocktailsByQuery(query);
+    if (drinks.length > 0) {
+      setDrinksCount(drinks.length);
+      const ingredientsSet = new Set();
+      drinks.forEach((drink) => {
+        Object.keys(drink).forEach((key) => {
+          if (key.startsWith("strIngredient") && drink[key]) {
+            ingredientsSet.add(drink[key]);
+          }
+        });
+      });
+      setIngredientsCount(ingredientsSet.size);
+    } else {
+      setDrinksCount(0);
+      setIngredientsCount(0);
+    }
   };
 
   const handleInputChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    onSearchChange(query);  // Lift the state up to the parent component
+    onSearchChange(query); // Lift the state up to the parent component
   };
 
   const handleKeyDown = (e) => {
