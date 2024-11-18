@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import background from "../../assets/images/b 1.jpg";
 import Button from "../Button";
+import {
+  fetchDrinks,
+  fetchRandomDrink,
+  fetchIngredientsList,
+  getIngredientImageUrl,
+} from "../../services/cocktailService";
 
 const PopularDrinks = ({ searchQuery }) => {
   const [drinks, setDrinks] = useState([]);
@@ -9,70 +15,49 @@ const PopularDrinks = ({ searchQuery }) => {
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filteredDrinks, setFilteredDrinks] = useState([]); // For storing filtered drinks
+  const [filteredDrinks, setFilteredDrinks] = useState([]);
+  
 
   // Fetch drinks based on search query or default to popular drinks
   useEffect(() => {
-    const fetchDrinks = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
-        let url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
-        if (searchQuery) {
-          url += searchQuery; // Add search query to the URL if it exists
-        } else {
-          url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a"; // Default to popular drinks (using 'f=a')
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.drinks) {
-          setDrinks(data.drinks); // Set fetched drinks
-        } else {
-          setDrinks([]); // Clear drinks if no results are found
-        }
-      } catch (error) {
+        const data = await fetchDrinks(searchQuery);
+        setDrinks(data);
+      } catch (err) {
         setError("Failed to fetch drinks.");
       } finally {
         setLoading(false);
       }
     };
+    fetchData();
+  }, [searchQuery]);
 
-    fetchDrinks();
-  }, [searchQuery]); // Re-fetch drinks whenever the searchQuery changes
-
-  // Handle the filtered drinks when the `drinks` state changes
+  // Update filtered drinks
   useEffect(() => {
     if (searchQuery) {
       const filtered = drinks.filter((drink) =>
         drink.strDrink.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredDrinks(filtered); // Update the filtered drinks
+      setFilteredDrinks(filtered);
     } else {
-      setFilteredDrinks(drinks); // Show all drinks if search query is empty
+      setFilteredDrinks(drinks);
     }
-  }, [searchQuery, drinks]); // Re-run this effect when drinks or searchQuery changes
+  }, [searchQuery, drinks]);
 
   // Fetch random drinks
-  const fetchRandomDrink = async () => {
-    try {
-      const response = await fetch(
-        "https://www.thecocktaildb.com/api/json/v1/1/random.php"
-      );
-      const data = await response.json();
-      return data.drinks[0];
-    } catch (error) {
-      console.error("Failed to fetch random drink:", error);
-      return null;
-    }
-  };
-
   const fetchRandomDrinks = async () => {
-    const drinks = [];
-    for (let i = 0; i < 8; i++) {
-      const drink = await fetchRandomDrink();
-      if (drink) drinks.push(drink);
+    try {
+      const drinks = [];
+      for (let i = 0; i < 8; i++) {
+        const drink = await fetchRandomDrink();
+        if (drink) drinks.push(drink);
+      }
+      setRandomDrinks(drinks);
+    } catch (err) {
+      console.error("Error fetching random drinks:", err);
     }
-    setRandomDrinks(drinks);
   };
 
   useEffect(() => {
@@ -81,21 +66,15 @@ const PopularDrinks = ({ searchQuery }) => {
 
   // Fetch ingredients list
   useEffect(() => {
-    const fetchIngredients = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
-        );
-        const data = await response.json();
-        if (Array.isArray(data.drinks)) {
-          setIngredients(data.drinks);
-        }
-      } catch (error) {
-        console.error("Failed to fetch ingredients list:", error);
+        const data = await fetchIngredientsList();
+        setIngredients(data);
+      } catch (err) {
+        console.error("Error fetching ingredients:", err);
       }
     };
-
-    fetchIngredients();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -168,24 +147,24 @@ const PopularDrinks = ({ searchQuery }) => {
 
       {/* Ingredients Section */}
       <div className="text-white p-6">
-        <h3 className="text-3xl mb-6 font-serif text-black">Ingredients List</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:px-8 md:px-12 lg:px-16">
-          {ingredients.slice(0, 12).map((ingredient, index) => (
-            <Link to={`/ingredient/${ingredient.strIngredient1}`} key={index}>
-              <div className="bg-black rounded-lg hover:bg-yellow-950 hover:cursor-pointer transition duration-300 w-full">
-                <img
-                  src={`https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Medium.png`}
-                  alt={ingredient.strIngredient1}
-                  className="w-[150px] sm:w-[180px] h-[150px] sm:h-[180px] object-cover rounded-md mb-4 mx-auto"
-                />
-                <p className="text-lg font-medium text-center mt-2">
-                  {ingredient.strIngredient1}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+      <h3 className="text-3xl mb-6 font-serif text-black">Ingredients List</h3>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:px-8 md:px-12 lg:px-16">
+        {ingredients.slice(0, 12).map((ingredient, index) => (
+          <Link to={`/ingredient/${ingredient.strIngredient1}`} key={index}>
+            <div className="bg-black rounded-lg hover:bg-yellow-950 hover:cursor-pointer transition duration-300 w-full">
+              <img
+                src={getIngredientImageUrl(ingredient.strIngredient1)}
+                alt={ingredient.strIngredient1}
+                className="w-[150px] sm:w-[180px] h-[150px] sm:h-[180px] object-cover rounded-md mb-4 mx-auto"
+              />
+              <p className="text-lg font-medium text-center mt-2">
+                {ingredient.strIngredient1}
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
+    </div>
     </div>
   );
 };
