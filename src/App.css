@@ -27,3 +27,30 @@
     margin-right: 60px;
   }
 }
+
+
+/* For large screens (1200px and above) */
+@media (min-width: 1200px) {
+  .drink-details-left {
+    width: 50%;
+    position: relative;
+  }
+
+  .add-to-cart-button {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* For extra large screens (1920px and above) */
+@media (min-width: 1920px) {
+  .drink-details-left {
+    width: 40%;
+  }
+
+  .add-to-cart-button {
+    bottom: -60px;
+  }
+}
